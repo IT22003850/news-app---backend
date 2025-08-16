@@ -1,12 +1,12 @@
 const News = require('../models/newsModel');
-const mongoose = require('mongoose');
 
 const getNews = async (req, res) => {
     try {
         const news = await News.find();
-        res.status(200).json(news);
+        res.json(news);
     } catch (error) {
-        console.log(error);
+        console.log(`Error Fetching News: ${error}`.red);
+        res.status(500).json({message: 'Server error, please try again later..!'})
     }
 }
 
