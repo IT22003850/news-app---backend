@@ -1,14 +1,13 @@
 const express = require("express");
 const dotenv = require('dotenv').config();
+const newsRoutes = require('./routes/newsRoutes')
 
 const PORT = process.env.PORT || 8000;
 
 const app = express();
 
-app.get("/", (req, res) => {
-  res.send("hello");
-});
+app.use("/api/news", newsRoutes);
 
 app.listen(PORT, () => {
-  console.log(`Server is Listning to Port ${PORT}`);
+  console.log(`Server is Listening to Port ${PORT}`);
 });
