@@ -10,6 +10,22 @@ const getNews = async (req, res) => {
   }
 };
 
+const getNewsById = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const news = await News.findById(id);
+
+        if(!news){
+            return res.status(404).json({message: `the News with id: ${id} was not found!`})
+        }
+
+        res.status(200).json(news);
+    } catch (error) {
+        res.status(500).json({ message: `Server error: ${error.message}` });
+    }
+
+}
+
 const postNews = async (req, res) => {
   try {
     const { title, description } = req.body;
@@ -54,7 +70,7 @@ const updateNews = async (req, res) => {
     const updatednews = await news.save();
     res.json(updatednews);
   } catch (error) {
-    res.status(500).json({ message: `Server error: ${error}` });
+    res.status(500).json({ message: `Server error: ${error.message}` });
   }
 };
 
@@ -73,8 +89,8 @@ const deleteNews = async (req, res) => {
       .status(200)
       .json({ message: `The news with id: ${id} is deleted successfully!` });
   } catch (error) {
-    res.status(500).json({ message: `Server error: ${error}` });
+    res.status(500).json({ message: `Server error: ${error.message}` });
   }
 };
 
-module.exports = { getNews, postNews, updateNews, deleteNews };
+module.exports = { getNews, getNewsById, postNews, updateNews, deleteNews };
