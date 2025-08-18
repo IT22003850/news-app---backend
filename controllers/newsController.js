@@ -31,4 +31,30 @@ const postNews = async (req, res) => {
     }
 }
 
-module.exports = {getNews, postNews};
+const updateNews = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const {title, description} = req.body;
+
+        const news = await News.findById(id);
+        if(!news){
+            return res.status(404).json({message: `the News with id: ${id} was not found!`})
+        }
+
+        if(title){
+            news.title = title;
+        }
+        if(description){
+            news.description = description;
+        }
+        
+        const updatednews = await news.save();
+        res.json(updatednews);
+
+    } catch (error) {
+        res.status(500).json({message: `Server error: ${error}`})
+    }
+
+}
+
+module.exports = {getNews, postNews, updateNews};
